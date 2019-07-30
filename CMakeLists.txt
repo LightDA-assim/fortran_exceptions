@@ -6,7 +6,7 @@ enable_language(Fortran)
 
 set(SRC_ASSIM lenkf_rsm.f90)
 
-add_library(assim ${SRC_ASSIM})
+add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 
 set(SRC_ADVECT1D advect1d.f90)
