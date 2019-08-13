@@ -27,7 +27,7 @@ add_custom_command(
   COMMAND ${F2PY_EXECUTABLE}
   -m ${dgemm_module_name}
   -c ${dgemm_sources}
-  -lblas
+  ${BLAS_LIBRARIES} ${BLAS_LINKER_FLAGS}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 install(FILES ${dgemm_module_file} DESTINATION .)
