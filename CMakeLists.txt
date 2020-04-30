@@ -8,13 +8,31 @@ find_package(LAPACK REQUIRED)
 
 enable_language(Fortran)
 
-set(SRC_ASSIM lenkf_rsm.f90)
+find_package(MPI REQUIRED)
 
+set(SRC_ASSIM lenkf_rsm.f90)
 add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 
-set(SRC_ADVECT1D advect1d.f90)
+function(configure_mpi_target target)
+  target_compile_options(${target} PRIVATE ${MPI_Fortran_COMPILE_OPTIONS})
+  target_compile_definitions(${target} PRIVATE ${MPI_Fortran_COMPILE_DEFINITIONS})
+  target_include_directories(${target} PRIVATE ${MPI_Fortran_INCLUDE_DIRS})
+  target_link_libraries(${target} PRIVATE ${MPI_Fortran_LINK_FLAGS})
+  target_link_libraries(${target} PRIVATE ${MPI_Fortran_LIBRARIES})
+endfunction()
 
+set(SRC_ASSIM_PARALLEL assimilate.f90)
+add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
+target_link_libraries(assim_parallel PRIVATE assim)
+configure_mpi_target(assim_parallel)
+
+set(SRC_ASSIM_ADVECT1D advect1d_assimilate_interfaces.f90)
+add_library(assim_advect1d SHARED ${SRC_ASSIM_ADVECT1D})
+target_link_libraries(assim_advect1d PRIVATE assim_parallel)
+configure_mpi_target(assim_advect1d)
+
+set(SRC_ADVECT1D advect1d.f90)
 add_library(advect1d SHARED ${SRC_ADVECT1D})
 
 find_package(F2PY REQUIRED)
