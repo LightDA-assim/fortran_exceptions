@@ -15,7 +15,6 @@ add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 
 function(configure_mpi_target target)
-  target_compile_options(${target} PRIVATE ${MPI_Fortran_COMPILE_OPTIONS})
   target_compile_definitions(${target} PRIVATE ${MPI_Fortran_COMPILE_DEFINITIONS})
   target_include_directories(${target} PRIVATE ${MPI_Fortran_INCLUDE_DIRS})
   target_link_libraries(${target} PRIVATE ${MPI_Fortran_LINK_FLAGS})
