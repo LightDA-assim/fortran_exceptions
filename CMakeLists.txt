@@ -37,6 +37,7 @@ add_library(advect1d SHARED ${SRC_ADVECT1D})
 find_package(F2PY REQUIRED)
 
 configure_file(animate.py animate.py COPYONLY)
+configure_file(animate_mpi.py animate_mpi.py COPYONLY)
 configure_file(advect1d.py advect1d.py COPYONLY)
 configure_file(enkf.py enkf.py COPYONLY)
 configure_file(libsuffix.py libsuffix.py COPYONLY)
