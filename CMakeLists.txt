@@ -10,6 +10,8 @@ enable_language(Fortran)
 
 find_package(MPI REQUIRED)
 
+find_package(HDF5 COMPONENTS Fortran REQUIRED)
+
 set(SRC_ASSIM lenkf_rsm.f90)
 add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
@@ -28,8 +30,16 @@ configure_mpi_target(assim_parallel)
 
 set(SRC_ASSIM_ADVECT1D advect1d_assimilate_interfaces.f90 advect1d_assimilate.f90)
 add_executable(advect1d_assimilate ${SRC_ASSIM_ADVECT1D})
-target_link_libraries(advect1d_assimilate PRIVATE assim_parallel)
+target_link_libraries(advect1d_assimilate PRIVATE assim_parallel ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
 configure_mpi_target(advect1d_assimilate)
+
+if(HDF5_Fortran_INCLUDE_DIRS)
+  target_include_directories(advect1d_assimilate PRIVATE ${HDF5_Fortran_INCLUDE_DIRS})
+elseif(HDF5_Fortran_INCLUDE_DIR)
+  target_include_directories(advect1d_assimilate PRIVATE ${HDF5_Fortran_INCLUDE_DIR})
+else()
+  message(FATAL_ERROR "No HDF5 Fortran include directory found.")
+endif()
 
 set(SRC_ADVECT1D advect1d.f90)
 add_library(advect1d SHARED ${SRC_ADVECT1D})
