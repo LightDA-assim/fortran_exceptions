@@ -23,6 +23,8 @@ function(configure_mpi_target target)
   target_link_libraries(${target} PRIVATE ${MPI_Fortran_LIBRARIES})
 endfunction()
 
+add_library(random SHARED random.f90)
+
 set(SRC_ASSIM_PARALLEL assimilate.f90)
 add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
 target_link_libraries(assim_parallel PRIVATE assim)
@@ -30,7 +32,7 @@ configure_mpi_target(assim_parallel)
 
 set(SRC_ASSIM_ADVECT1D advect1d_assimilate_interfaces.f90 advect1d_assimilate.f90)
 add_executable(advect1d_assimilate ${SRC_ASSIM_ADVECT1D})
-target_link_libraries(advect1d_assimilate PRIVATE assim_parallel ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
+target_link_libraries(advect1d_assimilate PRIVATE assim_parallel random ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
 configure_mpi_target(advect1d_assimilate)
 
 if(HDF5_Fortran_INCLUDE_DIRS)
