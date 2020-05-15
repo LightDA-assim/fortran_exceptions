@@ -10,6 +10,10 @@ enable_language(Fortran)
 
 find_package(MPI REQUIRED)
 
+if(MPI_Fortran_HAVE_F90_MODULE)
+  add_definitions(-DHAVE_MPI_MODULE)
+endif()
+
 find_package(HDF5 COMPONENTS Fortran REQUIRED)
 
 add_library(system_mpi SHARED system_mpi.F90)
