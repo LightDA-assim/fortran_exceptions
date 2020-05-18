@@ -16,12 +16,6 @@ endif()
 
 find_package(HDF5 COMPONENTS Fortran REQUIRED)
 
-add_library(system_mpi SHARED system_mpi.F90)
-
-set(SRC_ASSIM lenkf_rsm.f90)
-add_library(assim SHARED ${SRC_ASSIM})
-target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
-
 function(configure_mpi_target target)
   target_compile_definitions(${target} PRIVATE ${MPI_Fortran_COMPILE_DEFINITIONS})
   target_compile_options(${target} PRIVATE ${MPI_Fortran_COMPILE_OPTIONS})
@@ -29,6 +23,13 @@ function(configure_mpi_target target)
   target_link_libraries(${target} PRIVATE ${MPI_Fortran_LINK_FLAGS})
   target_link_libraries(${target} PRIVATE ${MPI_Fortran_LIBRARIES})
 endfunction()
+
+add_library(system_mpi SHARED system_mpi.F90)
+configure_mpi_target(system_mpi)
+
+set(SRC_ASSIM lenkf_rsm.f90)
+add_library(assim SHARED ${SRC_ASSIM})
+target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 
 add_library(random SHARED random.f90)
 
