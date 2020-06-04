@@ -35,14 +35,14 @@ add_library(random SHARED random.f90)
 
 add_library(localization SHARED localization.f90)
 
-set(SRC_ASSIM_PARALLEL assimilate.f90)
+set(SRC_ASSIM_PARALLEL assimilate.f90 assimilation_batch_manager.f90 assimilation_model_interface.f90)
 add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
-target_link_libraries(assim_parallel PRIVATE assim system_mpi)
+target_link_libraries(assim_parallel PRIVATE random assim system_mpi)
 configure_mpi_target(assim_parallel)
 
 set(SRC_ASSIM_ADVECT1D advect1d_assimilate_interfaces.f90 advect1d_assimilate.f90)
 add_executable(advect1d_assimilate ${SRC_ASSIM_ADVECT1D})
-target_link_libraries(advect1d_assimilate PRIVATE assim_parallel random localization system_mpi ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
+target_link_libraries(advect1d_assimilate PRIVATE assim_parallel localization system_mpi ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
 configure_mpi_target(advect1d_assimilate)
 set_source_files_properties(advect1d_assimilate_interfaces.F90 PROPERTIES COMPILE_FLAGS -cpp)
 
