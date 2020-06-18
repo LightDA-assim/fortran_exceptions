@@ -31,6 +31,7 @@ target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_ASSIM lenkf_rsm.f90 dummy_assimilator.f90)
 add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
+target_include_directories(assim PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(random SHARED random.f90)
 

@@ -7,7 +7,7 @@ target_link_libraries(dummy_assimilator_tests PRIVATE assim)
 
 add_test(test_dummy_assimilator dummy_assimilator_tests)
 
-add_executable(batch_manager_tests batch_manager_tests.F90)
-target_link_libraries(batch_manager_tests PRIVATE dummy_model_interfaces system_mpi assim_parallel)
+add_executable(batch_manager_tests_parallel batch_manager_tests_parallel.F90)
+target_link_libraries(batch_manager_tests_parallel PRIVATE dummy_model_interfaces system_mpi assim assim_parallel)
 
-add_test(test_batch_manager_parallel mpirun -n 4 batch_manager_tests)
+add_test(test_batch_manager_parallel mpirun -n 4 batch_manager_tests_parallel)
