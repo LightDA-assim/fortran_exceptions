@@ -1,0 +1,13 @@
+add_library(dummy_model_interfaces dummy_model_interfaces.f90)
+target_link_libraries(dummy_model_interfaces PRIVATE assim_parallel system_mpi)
+configure_mpi_target(dummy_model_interfaces)
+
+add_executable(dummy_assimilator_tests dummy_assimilator_tests.F90)
+target_link_libraries(dummy_assimilator_tests PRIVATE assim)
+
+add_test(test_dummy_assimilator dummy_assimilator_tests)
+
+add_executable(batch_manager_tests batch_manager_tests.F90)
+target_link_libraries(batch_manager_tests PRIVATE dummy_model_interfaces system_mpi assim_parallel)
+
+add_test(test_batch_manager_parallel mpirun -n 4 batch_manager_tests)

@@ -26,8 +26,9 @@ endfunction()
 
 add_library(system_mpi SHARED system_mpi.F90)
 configure_mpi_target(system_mpi)
+target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-set(SRC_ASSIM lenkf_rsm.f90)
+set(SRC_ASSIM lenkf_rsm.f90 dummy_assimilator.f90)
 add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 
@@ -39,10 +40,11 @@ set(SRC_ASSIM_PARALLEL assimilate.f90 assimilation_batch_manager.f90 assimilatio
 add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
 target_link_libraries(assim_parallel PRIVATE random assim system_mpi)
 configure_mpi_target(assim_parallel)
+target_include_directories(assim_parallel PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 set(SRC_ASSIM_ADVECT1D advect1d_assimilate_interfaces.f90 advect1d_assimilate.f90)
 add_executable(advect1d_assimilate ${SRC_ASSIM_ADVECT1D})
-target_link_libraries(advect1d_assimilate PRIVATE assim_parallel localization system_mpi ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
+target_link_libraries(advect1d_assimilate PRIVATE assim assim_parallel localization system_mpi ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
 configure_mpi_target(advect1d_assimilate)
 set_source_files_properties(advect1d_assimilate_interfaces.F90 PROPERTIES COMPILE_FLAGS -cpp)
 
@@ -65,3 +67,6 @@ configure_file(advect1d.py advect1d.py COPYONLY)
 configure_file(enkf.py enkf.py COPYONLY)
 configure_file(libsuffix.py libsuffix.py COPYONLY)
 configure_file(lenkf_rsm_py.py lenkf_rsm_py.py COPYONLY)
+
+enable_testing()
+add_subdirectory(tests)
