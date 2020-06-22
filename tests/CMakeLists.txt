@@ -11,11 +11,11 @@ target_link_libraries(model_interface_tests PRIVATE assim_parallel system_mpi)
 add_executable(dummy_model_interface_tests dummy_model_interface_tests.f90)
 target_link_libraries(dummy_model_interface_tests PRIVATE model_interface_tests system_mpi dummy_model_interfaces)
 
-add_test(test_dummy_model_interface mpirun -n 4 dummy_model_interface_tests)
+add_test(test_dummy_model_interface ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./dummy_model_interface_tests)
 
 add_test(test_dummy_assimilator dummy_assimilator_tests)
 
 add_executable(batch_manager_tests_parallel batch_manager_tests_parallel.F90)
 target_link_libraries(batch_manager_tests_parallel PRIVATE dummy_model_interfaces system_mpi assim assim_parallel)
 
-add_test(test_batch_manager_parallel mpirun -n 4 batch_manager_tests_parallel)
+add_test(test_batch_manager_parallel ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./batch_manager_tests_parallel)
