@@ -24,6 +24,20 @@ function(configure_mpi_target target)
   target_link_libraries(${target} PRIVATE ${MPI_Fortran_LIBRARIES})
 endfunction()
 
+function(configure_hdf5_target target)
+
+  target_link_libraries(${target} PRIVATE ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
+
+  if(HDF5_Fortran_INCLUDE_DIRS)
+    target_include_directories(${target} PRIVATE ${HDF5_Fortran_INCLUDE_DIRS})
+  elseif(HDF5_Fortran_INCLUDE_DIR)
+    target_include_directories(${target} PRIVATE ${HDF5_Fortran_INCLUDE_DIR})
+  else()
+    message(FATAL_ERROR "No HDF5 Fortran include directory found.")
+  endif()
+
+endfunction()
+
 add_library(system_mpi SHARED system_mpi.F90)
 configure_mpi_target(system_mpi)
 target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
@@ -44,16 +58,9 @@ configure_mpi_target(assim_parallel)
 target_include_directories(assim_parallel PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(advect1d_assimilate_interfaces advect1d_assimilate_interfaces.f90)
-target_link_libraries(advect1d_assimilate_interfaces PRIVATE assim assim_parallel localization system_mpi ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
+target_link_libraries(advect1d_assimilate_interfaces PRIVATE assim assim_parallel localization system_mpi)
+configure_hdf5_target(advect1d_assimilate_interfaces)
 target_include_directories(advect1d_assimilate_interfaces PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-
-if(HDF5_Fortran_INCLUDE_DIRS)
-  target_include_directories(advect1d_assimilate_interfaces PRIVATE ${HDF5_Fortran_INCLUDE_DIRS})
-elseif(HDF5_Fortran_INCLUDE_DIR)
-  target_include_directories(advect1d_assimilate_interfaces PRIVATE ${HDF5_Fortran_INCLUDE_DIR})
-else()
-  message(FATAL_ERROR "No HDF5 Fortran include directory found.")
-endif()
 
 set(SRC_ASSIM_ADVECT1D advect1d_assimilate.f90)
 add_executable(advect1d_assimilate ${SRC_ASSIM_ADVECT1D})
