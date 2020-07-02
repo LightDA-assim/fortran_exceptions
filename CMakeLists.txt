@@ -33,7 +33,7 @@ add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 target_include_directories(assim PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(random SHARED random.f90)
+add_library(random SHARED random.f90 random_integer.f90)
 
 add_library(localization SHARED localization.f90)
 

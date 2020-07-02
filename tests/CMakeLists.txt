@@ -1,12 +1,12 @@
 add_library(dummy_model_interfaces dummy_model_interfaces.f90)
-target_link_libraries(dummy_model_interfaces PRIVATE assim_parallel system_mpi)
+target_link_libraries(dummy_model_interfaces PRIVATE assim_parallel system_mpi random)
 configure_mpi_target(dummy_model_interfaces)
 
 add_executable(dummy_assimilator_tests dummy_assimilator_tests.F90)
 target_link_libraries(dummy_assimilator_tests PRIVATE assim)
 
 add_library(model_interface_tests model_interface_tests.f90)
-target_link_libraries(model_interface_tests PRIVATE assim_parallel system_mpi)
+target_link_libraries(model_interface_tests PRIVATE assim_parallel system_mpi random)
 
 add_executable(dummy_model_interface_tests dummy_model_interface_tests.f90)
 target_link_libraries(dummy_model_interface_tests PRIVATE model_interface_tests system_mpi dummy_model_interfaces)
