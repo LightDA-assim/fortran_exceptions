@@ -16,6 +16,7 @@ add_test(test_dummy_model_interface ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG
 add_executable(advect1d_model_interface_tests advect1d_model_interface_tests.f90)
 target_link_libraries(advect1d_model_interface_tests PRIVATE model_interface_tests system_mpi advect1d_assimilate_interfaces)
 configure_mpi_target(advect1d_model_interface_tests)
+configure_hdf5_target(advect1d_model_interface_tests)
 
 add_test(test_advect1d_model_interface ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./advect1d_model_interface_tests)
 
