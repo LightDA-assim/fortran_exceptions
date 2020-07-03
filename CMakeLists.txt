@@ -42,7 +42,7 @@ add_library(system_mpi SHARED system_mpi.F90)
 configure_mpi_target(system_mpi)
 target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-set(SRC_ASSIM lenkf_rsm.f90 dummy_assimilator.f90)
+set(SRC_ASSIM lenkf_rsm.f90 lenkf_rsm_c.f90 dummy_assimilator.f90)
 add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 target_include_directories(assim PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
