@@ -1,4 +1,4 @@
-add_library(dummy_model_interfaces dummy_model_interfaces.f90)
+add_library(dummy_model_interfaces dummy_model_interfaces.F90)
 target_link_libraries(dummy_model_interfaces PRIVATE assim_parallel system_mpi random)
 configure_mpi_target(dummy_model_interfaces)
 
@@ -22,7 +22,7 @@ add_test(test_advect1d_model_interface ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_F
 
 add_test(test_dummy_assimilator dummy_assimilator_tests)
 
-add_executable(batch_manager_tests batch_manager_tests.f90)
+add_executable(batch_manager_tests batch_manager_tests.F90)
 target_link_libraries(batch_manager_tests PRIVATE dummy_model_interfaces system_mpi assim assim_parallel)
 
 add_test(test_batch_manager ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./batch_manager_tests)

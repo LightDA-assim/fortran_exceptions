@@ -43,8 +43,9 @@ function(configure_hdf5_target target)
 endfunction()
 
 add_library(system_mpi SHARED system_mpi.F90)
+set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
 configure_mpi_target(system_mpi)
-target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SRC_ASSIM lenkf_rsm.f90 lenkf_rsm_c.f90 dummy_assimilator.f90)
 add_library(assim SHARED ${SRC_ASSIM})
@@ -55,13 +56,13 @@ add_library(random SHARED random.f90 random_integer.f90)
 
 add_library(localization SHARED localization.f90)
 
-set(SRC_ASSIM_PARALLEL assimilate.f90 assimilation_batch_manager.f90 assimilation_model_interface.f90)
+set(SRC_ASSIM_PARALLEL assimilate.F90 assimilation_batch_manager.F90 assimilation_model_interface.f90)
 add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
 target_link_libraries(assim_parallel PRIVATE random assim system_mpi)
 configure_mpi_target(assim_parallel)
 target_include_directories(assim_parallel PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(advect1d_assimilate_interfaces advect1d_assimilate_interfaces.f90)
+add_library(advect1d_assimilate_interfaces advect1d_assimilate_interfaces.F90)
 target_link_libraries(advect1d_assimilate_interfaces PRIVATE assim assim_parallel localization system_mpi)
 configure_hdf5_target(advect1d_assimilate_interfaces)
 target_include_directories(advect1d_assimilate_interfaces PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
