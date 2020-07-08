@@ -14,7 +14,7 @@ if(MPI_Fortran_HAVE_F90_MODULE)
   add_definitions(-DHAVE_MPI_F90_MODULE)
 endif()
 
-if(MPI_Fortran_HAVE_F90_MODULE)
+if(MPI_Fortran_HAVE_F08_MODULE)
   add_definitions(-DHAVE_MPI_F08_MODULE)
 endif()
 
