@@ -4,6 +4,8 @@ project(lenkf-rsm)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/")
 
+include(lenkf_functions)
+
 find_package(LAPACK REQUIRED)
 
 enable_language(Fortran)
@@ -19,28 +21,6 @@ if(MPI_Fortran_HAVE_F08_MODULE)
 endif()
 
 find_package(HDF5 COMPONENTS Fortran REQUIRED)
-
-function(configure_mpi_target target)
-  target_compile_definitions(${target} PRIVATE ${MPI_Fortran_COMPILE_DEFINITIONS})
-  target_compile_options(${target} PRIVATE ${MPI_Fortran_COMPILE_OPTIONS})
-  target_include_directories(${target} PRIVATE ${MPI_Fortran_INCLUDE_DIRS})
-  target_link_libraries(${target} PRIVATE ${MPI_Fortran_LINK_FLAGS})
-  target_link_libraries(${target} PRIVATE ${MPI_Fortran_LIBRARIES})
-endfunction()
-
-function(configure_hdf5_target target)
-
-  target_link_libraries(${target} PRIVATE ${HDF5_Fortran_LIBRARIES} ${HDF5_LIBRARIES})
-
-  if(HDF5_Fortran_INCLUDE_DIRS)
-    target_include_directories(${target} PRIVATE ${HDF5_Fortran_INCLUDE_DIRS})
-  elseif(HDF5_Fortran_INCLUDE_DIR)
-    target_include_directories(${target} PRIVATE ${HDF5_Fortran_INCLUDE_DIR})
-  else()
-    message(FATAL_ERROR "No HDF5 Fortran include directory found.")
-  endif()
-
-endfunction()
 
 add_library(system_mpi SHARED system_mpi.F90)
 set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
