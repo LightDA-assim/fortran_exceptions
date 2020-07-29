@@ -26,3 +26,8 @@ add_executable(batch_manager_tests batch_manager_tests.F90)
 target_link_libraries(batch_manager_tests PRIVATE dummy_model_interfaces system_mpi assim assim_parallel)
 
 add_test(test_batch_manager ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./batch_manager_tests)
+
+add_executable(util_tests util_tests.f90)
+target_link_libraries(util_tests util)
+
+add_test(test_util ./util_tests)
