@@ -27,6 +27,11 @@ set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
 configure_mpi_target(system_mpi)
 target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
+add_library(util STATIC util.F90)
+target_include_directories(util PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(util PUBLIC system_mpi)
+configure_mpi_target(util)
+
 set(SRC_ASSIM lenkf_rsm.f90 lenkf_rsm_c.f90 dummy_assimilator.f90)
 add_library(assim SHARED ${SRC_ASSIM})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
@@ -38,7 +43,7 @@ add_library(localization SHARED localization.f90)
 
 set(SRC_ASSIM_PARALLEL assimilate.F90 assimilation_batch_manager.F90 assimilation_model_interface.f90)
 add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
-target_link_libraries(assim_parallel PRIVATE random assim system_mpi)
+target_link_libraries(assim_parallel PRIVATE random assim system_mpi util)
 configure_mpi_target(assim_parallel)
 target_include_directories(assim_parallel PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
