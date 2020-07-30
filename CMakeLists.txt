@@ -8,20 +8,6 @@ include(lenkf_functions)
 
 find_package(LAPACK REQUIRED)
 
-enable_language(Fortran)
-
-find_package(MPI REQUIRED)
-
-if(MPI_Fortran_HAVE_F90_MODULE)
-  add_definitions(-DHAVE_MPI_F90_MODULE)
-endif()
-
-if(MPI_Fortran_HAVE_F08_MODULE)
-  add_definitions(-DHAVE_MPI_F08_MODULE)
-endif()
-
-find_package(HDF5 COMPONENTS Fortran REQUIRED)
-
 set(SYSTEM_MPI_SOURCES system_mpi.F90)
 add_library(system_mpi SHARED ${SYSTEM_MPI_SOURCES})
 set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
