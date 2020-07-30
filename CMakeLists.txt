@@ -22,44 +22,48 @@ endif()
 
 find_package(HDF5 COMPONENTS Fortran REQUIRED)
 
-add_library(system_mpi SHARED system_mpi.F90)
+set(SYSTEM_MPI_SOURCES system_mpi.F90)
+add_library(system_mpi SHARED ${SYSTEM_MPI_SOURCES})
 set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
 configure_mpi_target(system_mpi)
 target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(util STATIC util.F90)
+set(UTIL_SOURCES util.F90)
+add_library(util STATIC ${UTIL_SOURCES})
 target_include_directories(util PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(util PUBLIC system_mpi)
 configure_mpi_target(util)
 
-set(SRC_ASSIM lenkf_rsm.f90 lenkf_rsm_c.f90 dummy_assimilator.f90)
-add_library(assim SHARED ${SRC_ASSIM})
+set(ASSIM_SOURCES lenkf_rsm.f90 lenkf_rsm_c.f90 dummy_assimilator.f90)
+add_library(assim SHARED ${ASSIM_SOURCES})
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 target_include_directories(assim PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(random SHARED random.f90 random_integer.f90)
+set(RANDOM_SOURCES random.f90 random_integer.f90)
+add_library(random SHARED ${RANDOM_SOURCES})
 
 add_library(localization SHARED localization.f90)
 
-set(SRC_ASSIM_PARALLEL assimilate.F90 assimilation_batch_manager.F90 assimilation_model_interface.f90)
-add_library(assim_parallel SHARED ${SRC_ASSIM_PARALLEL})
+set(ASSIM_PARALLEL_SOURCES assimilate.F90 assimilation_batch_manager.F90 assimilation_model_interface.f90)
+add_library(assim_parallel SHARED ${ASSIM_PARALLEL_SOURCES})
 target_link_libraries(assim_parallel PRIVATE random assim system_mpi util)
 configure_mpi_target(assim_parallel)
 target_include_directories(assim_parallel PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(advect1d_assimilate_interfaces advect1d_assimilate_interfaces.F90)
+set(ADVECT1D_ASSIMILATE_INTERFACES_SOURCES advect1d_assimilate_interfaces.F90)
+add_library(advect1d_assimilate_interfaces ${ADVECT1D_ASSIMILATE_INTERFACES_SOURCES})
 target_link_libraries(advect1d_assimilate_interfaces PRIVATE assim assim_parallel localization system_mpi)
 configure_hdf5_target(advect1d_assimilate_interfaces)
 target_include_directories(advect1d_assimilate_interfaces PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-set(SRC_ASSIM_ADVECT1D advect1d_assimilate.f90)
-add_executable(advect1d_assimilate ${SRC_ASSIM_ADVECT1D})
+set(ADVECT1D_ASSIMILATE_SOURCES advect1d_assimilate.f90)
+add_executable(advect1d_assimilate ${ADVECT1D_ASSIMILATE_SOURCES})
 target_link_libraries(advect1d_assimilate PRIVATE assim assim_parallel localization system_mpi advect1d_assimilate_interfaces)
 configure_mpi_target(advect1d_assimilate)
 set_source_files_properties(advect1d_assimilate_interfaces.F90 PROPERTIES COMPILE_FLAGS -cpp)
 
-set(SRC_ADVECT1D advect1d.f90)
-add_library(advect1d SHARED ${SRC_ADVECT1D})
+set(ADVECT1D_SOURCES advect1d.f90)
+add_library(advect1d SHARED ${ADVECT1D_SOURCES})
 
 find_package(F2PY REQUIRED)
 
@@ -125,7 +129,7 @@ if ( NOT SKIP_DOC_GEN )
     endif ()
     message ( STATUS "Done dynamically computing FORD outputs." )
 
-    foreach ( DOC_SRC_FILE ${PROJECT_SOURCE_DIR}/lenkf-rsm.md ${PAGES_FILES} )
+    foreach ( DOC_SRC_FILE ${PROJECT_SOURCE_DIR}/lenkf-rsm.md ${SYSTEM_MPI_SOURCES} ${UTIL_SOURCES} ${ASSIM_SOURCES} ${ASSIM_PARALLEL_SOURCES} ${ADVECT1D_ASSIMILATE_INTERFACES_SOURCES} ${ADVECT1D_ASSIMILATE_SOURCES} ${ADVECT1D_SOURCES} ${PAGES_FILES} )
       list ( APPEND FORD_DEPENDS "${DOC_SRC_FILE}" )
     endforeach ()
 
