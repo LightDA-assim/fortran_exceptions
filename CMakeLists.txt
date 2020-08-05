@@ -14,7 +14,7 @@ set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
 configure_mpi_target(system_mpi)
 target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(UTIL_SOURCES util.F90)
+set(UTIL_SOURCES util.F90 tree.f90)
 add_library(util STATIC ${UTIL_SOURCES})
 target_include_directories(util PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(util PUBLIC system_mpi)
