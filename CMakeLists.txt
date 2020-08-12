@@ -32,7 +32,7 @@ add_library(localization SHARED localization.f90)
 
 set(ASSIM_PARALLEL_SOURCES assimilate.F90 assimilation_batch_manager.F90 assimilation_model_interface.f90)
 add_library(assim_parallel SHARED ${ASSIM_PARALLEL_SOURCES})
-target_link_libraries(assim_parallel PRIVATE random assim system_mpi util)
+target_link_libraries(assim_parallel PUBLIC random assim system_mpi util)
 configure_mpi_target(assim_parallel)
 target_include_directories(assim_parallel PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
