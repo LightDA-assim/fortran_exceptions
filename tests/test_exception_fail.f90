@@ -10,6 +10,7 @@ contains
     class(error_status),allocatable,optional::status
 
     call throw(status,new_exception("An error occurred"))
+    return
 
   end subroutine test_throw
 
