@@ -10,7 +10,7 @@ contains
     use exceptions, ONLY: error_status
 
     ! Arguments
-    class(error_status),allocatable,optional::status
+    class(error_status),intent(out),allocatable,optional::status
         !! Error status
 
   end subroutine test_no_throw
@@ -21,7 +21,7 @@ contains
     use exceptions, ONLY: throw, new_exception, error_status
 
     ! Arguments
-    class(error_status),allocatable,optional::status
+    class(error_status),intent(out),allocatable,optional::status
         !! Error status
 
     call throw(status,new_exception("An error occurred"))
@@ -36,7 +36,7 @@ contains
     use exceptions, ONLY: throw, new_exception, error_status
 
     ! Arguments
-    class(error_status),allocatable,optional::status
+    class(error_status),intent(out),allocatable,optional::status
         !! Error status
 
     call throw(status,new_exception("An error occurred","test_throw_with_procname"))
