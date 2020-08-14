@@ -1,13 +1,13 @@
 module exception_tests
 
+  use exceptions, ONLY: throw, exception, new_exception, error_status
+
   implicit none
 
 contains
 
   subroutine test_no_throw(status)
     !! Test procedure that can throw an error, but doesn't
-
-    use exceptions, ONLY: error_status
 
     ! Arguments
     class(error_status),intent(out),allocatable,optional::status
@@ -17,8 +17,6 @@ contains
 
   subroutine test_throw(status)
     !! Test procedure that throws an exception and exits
-
-    use exceptions, ONLY: throw, new_exception, error_status
 
     ! Arguments
     class(error_status),intent(out),allocatable,optional::status
@@ -33,8 +31,6 @@ contains
     !! Test procedure that throws an exception with the procedure attribute set
     !! and exits
 
-    use exceptions, ONLY: throw, new_exception, error_status
-
     ! Arguments
     class(error_status),intent(out),allocatable,optional::status
         !! Error status
@@ -47,8 +43,6 @@ contains
   subroutine test_fail()
     !! Test function that calls an exception-throwing procedure and ignores the
     !! exception explicitly, triggering a fatal error.
-
-    use exceptions, ONLY: exception,error_status
 
     class(error_status),allocatable::status
         !! Error status
@@ -73,8 +67,6 @@ contains
   subroutine test_catch()
     !! Test procedure that calls exception-throwing procedures and handles the
     !! exceptions
-
-    use exceptions, ONLY: exception,error_status
 
     class(error_status),allocatable::status
         !! Error status
