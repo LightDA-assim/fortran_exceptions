@@ -79,25 +79,32 @@ contains
     class(error_status),allocatable::status
         !! Error status
 
+    ! Call a routine that can throw an error, but doesn't
     call test_no_throw()
 
+    ! Call the same routine again, but pass the optional status argument
     call test_no_throw(status)
 
+    ! Check the status argument
     select type(status)
     class is(exception)
        print *,"Saw error:",status%as_string()
     end select
 
+    ! Call a routine that throws an error
     call test_throw(status)
 
+    ! Handle the error
     select type(status)
     class is(exception)
        print *,"Handled error:",status%as_string()
        status%handled=.true.
     end select
 
+    ! Call a routine that throws an error with the procedure attribute set
     call test_throw_with_procname(status)
 
+    ! Handle the error
     select type(status)
     class is(exception)
        print *,"Handled error:",status%as_string()
