@@ -32,13 +32,16 @@ target_link_libraries(util_tests util)
 
 add_test(test_util ./util_tests)
 
+add_library(exception_tests exception_tests.f90)
+target_link_libraries(exception_tests util)
+
 add_executable(exception_test_pass test_exception_pass.f90)
-target_link_libraries(exception_test_pass util)
+target_link_libraries(exception_test_pass exception_tests)
 
 add_test(test_exception_pass exception_test_pass)
 
 add_executable(exception_test_fail test_exception_fail.f90)
-target_link_libraries(exception_test_fail util)
+target_link_libraries(exception_test_fail exception_tests)
 
 add_test(test_exception_fail exception_test_fail)
 set_tests_properties(test_exception_fail PROPERTIES WILL_FAIL TRUE)
