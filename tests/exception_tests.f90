@@ -62,6 +62,14 @@ contains
 
   end subroutine test_fail
 
+  subroutine test_fail_implicit()
+    !! Test function that calls an exception-throwing procedure and
+    !! ignores the exception implicitly, triggering a fatal error
+
+    call test_throw()
+
+  end subroutine test_fail_implicit
+
   subroutine test_catch()
     !! Test procedure that calls exception-throwing procedures and handles the
     !! exceptions
