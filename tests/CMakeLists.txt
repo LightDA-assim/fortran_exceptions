@@ -31,3 +31,13 @@ add_executable(util_tests util_tests.f90)
 target_link_libraries(util_tests util)
 
 add_test(test_util ./util_tests)
+
+add_executable(exception_test_pass test_exception_pass.f90)
+target_link_libraries(exception_test_pass util)
+
+add_test(test_exception_pass exception_test_pass)
+
+add_executable(exception_test_fail test_exception_fail.f90)
+target_link_libraries(exception_test_fail util)
+
+add_test(test_exception_fail exception_test_fail)
