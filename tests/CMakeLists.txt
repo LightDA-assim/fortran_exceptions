@@ -41,3 +41,4 @@ add_executable(exception_test_fail test_exception_fail.f90)
 target_link_libraries(exception_test_fail util)
 
 add_test(test_exception_fail exception_test_fail)
+set_tests_properties(test_exception_fail PROPERTIES WILL_FAIL TRUE)
