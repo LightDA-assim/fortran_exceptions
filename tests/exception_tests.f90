@@ -85,8 +85,7 @@ contains
 
     select type(status)
     class is(exception)
-       print *,"Handled error:",status%as_string()
-       status%handled=.true.
+       print *,"Saw error:",status%as_string()
     end select
 
     call test_throw(status)
