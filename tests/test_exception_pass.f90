@@ -4,6 +4,17 @@ module test_exception_pass
 
 contains
 
+  subroutine test_no_throw(status)
+    !! Test procedure that can throw an error, but doesn't
+
+    use exceptions, ONLY: error_status
+
+    ! Arguments
+    class(error_status),allocatable,optional::status
+        !! Error status
+
+  end subroutine test_no_throw
+
   subroutine test_throw(status)
     !! Test procedure that throws an exception and exits
 
@@ -41,6 +52,16 @@ contains
 
     class(error_status),allocatable::status
         !! Error status
+
+    call test_no_throw()
+
+    call test_no_throw(status)
+
+    select type(status)
+    class is(exception)
+       print *,"Handled error:",status%as_string()
+       status%handled=.true.
+    end select
 
     call test_throw(status)
 
