@@ -48,12 +48,11 @@ contains
     ! Arguments
     class(error_status),intent(out),allocatable,optional::status
         !! Status object from the caller
-    class(error_status)::new_status
+    class(error_status),intent(in)::new_status
         !! New status object
 
     if(present(status)) then
        status=new_status
-       new_status%handled=.true.
     end if
     
   end subroutine throw
