@@ -20,7 +20,7 @@ if(${WILL_FAIL})
 
   message("${CMD} returned ${CMD_RESULT}")
 
-  if(NOT ${CMD_RESULT})
+  if(${CMD_RESULT} EQUAL 0)
     message(FATAL_ERROR "${CMD} should have failed, but didn't")
   endif()
 
@@ -34,7 +34,7 @@ if(${WILL_FAIL})
 
 else()
 
-  if(${CMD_RESULT})
+  if(NOT ${CMD_RESULT} EQUAL 0)
     message(FATAL_ERROR "Error running ${CMD}")
   endif()
 
