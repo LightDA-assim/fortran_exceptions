@@ -8,6 +8,7 @@ module exceptions
    contains
      procedure::as_string=>error_status_as_string
      procedure::print=>error_status_print
+     procedure::default_handler=>error_status_default_handler
   end type error_status
 
   type, extends(error_status) :: no_error
@@ -17,6 +18,7 @@ module exceptions
   type, extends(error_status)::exception
      !! Generic exception
    contains
+     procedure::default_handler=>exception_default_handler
      final::exception_finalize
   end type exception
 
@@ -53,6 +55,8 @@ contains
 
     if(present(status)) then
        status=new_status
+    else
+       call new_status%default_handler()
     end if
     
   end subroutine throw
@@ -86,7 +90,15 @@ contains
     write(error_unit,*) this%as_string()
   end subroutine error_status_print
 
-  subroutine exception_finalize(this)
+  subroutine error_status_default_handler(this)
+
+    ! Arguments
+    class(error_status),intent(in)::this
+        !! Status object
+
+  end subroutine error_status_default_handler
+
+  subroutine exception_default_handler(this)
 
     !! Finalize an exception. If this%handled is false, print error message
     !! and terminate. Otherwise do nothing.
@@ -102,6 +114,21 @@ contains
        call this%print()
        error stop
     end if
+
+  end subroutine exception_default_handler
+
+  subroutine exception_finalize(this)
+
+    !! Finalize an exception. If this%handled is false, print error message
+    !! and terminate. Otherwise do nothing.
+
+    use iso_fortran_env, ONLY: error_unit
+
+    ! Arguments
+    type(exception),intent(inout)::this
+        !! Exception object
+
+    call this%default_handler()
 
   end subroutine exception_finalize
 
