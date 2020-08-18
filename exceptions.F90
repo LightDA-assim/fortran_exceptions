@@ -106,8 +106,8 @@ contains
     use iso_fortran_env, ONLY: error_unit
 
     ! Arguments
-    type(exception),intent(inout)::this
-    !! Exception object
+    class(exception),intent(in)::this
+        !! Exception object
 
     if(.not.this%handled) then
        write (error_unit,*) 'Unhandled exception:'
