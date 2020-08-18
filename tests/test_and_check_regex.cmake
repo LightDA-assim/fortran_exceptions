@@ -8,7 +8,7 @@ message("${OUTPUT}")
 
 # Check whether OUTPUT matches PASS_PATTERN
 if(DEFINED PASS_PATTERN)
-  string(REGEX MATCH ${PASS_PATTERN} PASS_MATCH ${OUTPUT})
+  string(REGEX MATCH "${PASS_PATTERN}" PASS_MATCH ${OUTPUT})
 endif()
 
 # Check whether OUTPUT matches FAIL_PATTERN
