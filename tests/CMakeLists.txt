@@ -43,11 +43,19 @@ add_test(test_exception_pass exception_test_pass)
 add_executable(exception_test_fail test_exception_fail.f90)
 target_link_libraries(exception_test_fail exception_tests)
 
-add_test(test_exception_fail exception_test_fail)
-set_tests_properties(test_exception_fail PROPERTIES WILL_FAIL TRUE)
+add_test(NAME test_exception_fail
+  COMMAND ${CMAKE_COMMAND}
+  -DCMD=$<TARGET_FILE:exception_test_fail>
+  -DFAIL_PATTERN=Unhandled\ exception
+  -DWILL_FAIL=1
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/test_and_check_regex.cmake)
 
 add_executable(exception_test_fail_implicit test_exception_fail_implicit.f90)
 target_link_libraries(exception_test_fail_implicit exception_tests)
 
-add_test(test_exception_fail_implicit exception_test_fail)
-set_tests_properties(test_exception_fail_implicit PROPERTIES WILL_FAIL TRUE)
+add_test(NAME test_exception_fail_implicit
+  COMMAND ${CMAKE_COMMAND}
+  -DCMD=$<TARGET_FILE:exception_test_fail_implicit>
+  -DFAIL_PATTERN=Unhandled\ exception
+  -DWILL_FAIL=1
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/test_and_check_regex.cmake)
