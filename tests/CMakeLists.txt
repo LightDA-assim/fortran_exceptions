@@ -59,3 +59,12 @@ add_test(NAME test_exception_fail_implicit
   -DFAIL_PATTERN=Unhandled\ exception
   -DWILL_FAIL=1
   -P ${CMAKE_CURRENT_SOURCE_DIR}/test_and_check_regex.cmake)
+
+add_library(darray_tests darray_tests.F90)
+target_link_libraries(darray_tests util)
+
+add_executable(darray_test test_darray.F90)
+target_link_libraries(darray_test PUBLIC darray_tests)
+configure_mpi_target(darray_test)
+
+add_test(test_darray darray_test ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4)
