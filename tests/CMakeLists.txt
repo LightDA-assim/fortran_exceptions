@@ -67,4 +67,4 @@ add_executable(darray_test test_darray.F90)
 target_link_libraries(darray_test PUBLIC darray_tests)
 configure_mpi_target(darray_test)
 
-add_test(test_darray darray_test ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4)
+add_test(test_darray ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./darray_test)
