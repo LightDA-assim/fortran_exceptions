@@ -27,29 +27,29 @@ if(${WILL_FAIL})
   message("${CMD} returned ${CMD_RESULT}")
 
   if(${CMD_RESULT} EQUAL 0)
-    message(FATAL_ERROR "${CMD} should have failed, but didn't")
+    message(FATAL_ERROR "${CMD_EXECUTABLE} should have failed, but didn't")
   endif()
 
   if(DEFINED FAIL_PATTERN AND NOT FAIL_MATCH)
-    message(FATAL_ERROR "${CMD} output did not match pattern \"${FAIL_PATTERN}\"")
+    message(FATAL_ERROR "${CMD_EXECUTABLE} output did not match pattern \"${FAIL_PATTERN}\"")
   endif()
 
   if(DEFINED PASS_PATTERN AND PASS_MATCH)
-    message(FATAL_ERROR "${CMD} output matched pattern ${PASS_MATCH}")
+    message(FATAL_ERROR "${CMD_EXECUTABLE} output matched pattern ${PASS_PATTERN}")
   endif()
 
 else()
 
   if(NOT ${CMD_RESULT} EQUAL 0)
-    message(FATAL_ERROR "Error running ${CMD}")
+    message(FATAL_ERROR "Error running ${CMD_EXECUTABLE}, exit status ${CMD_RESULT}")
   endif()
 
   if(DEFINED FAIL_PATTERN AND FAIL_MATCH)
-    message(FATAL_ERROR "${CMD} output matched pattern ${FAIL_MATCH}")
+    message(FATAL_ERROR "${CMD_EXECUTABLE} output matched pattern ${FAIL_PATTERN}")
   endif()
 
   if(DEFINED PASS_PATTERN AND NOT PASS_MATCH)
-    message(FATAL_ERROR "${CMD} output did not match pattern ${PASS_MATCH}")
+    message(FATAL_ERROR "${CMD_EXECUTABLE} output did not match pattern ${PASS_PATTERN}")
   endif()
 
 endif()
