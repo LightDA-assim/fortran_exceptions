@@ -10,7 +10,7 @@ contains
     !! Test procedure that can throw an error, but doesn't
 
     ! Arguments
-    class(error_status),intent(out),allocatable,optional::status
+    class(error_status), intent(out), allocatable, optional::status
         !! Error status
 
   end subroutine test_no_throw
@@ -19,10 +19,10 @@ contains
     !! Test procedure that throws an exception and exits
 
     ! Arguments
-    class(error_status),intent(out),allocatable,optional::status
+    class(error_status), intent(out), allocatable, optional::status
         !! Error status
 
-    call throw(status,new_exception("An error occurred"))
+    call throw(status, new_exception("An error occurred"))
     return
 
   end subroutine test_throw
@@ -32,10 +32,11 @@ contains
     !! and exits
 
     ! Arguments
-    class(error_status),intent(out),allocatable,optional::status
+    class(error_status), intent(out), allocatable, optional::status
         !! Error status
 
-    call throw(status,new_exception("An error occurred","test_throw_with_procname"))
+    call throw(status, new_exception("An error occurred", &
+                                     "test_throw_with_procname"))
     return
 
   end subroutine test_throw_with_procname
@@ -44,14 +45,14 @@ contains
     !! Test function that calls an exception-throwing procedure and ignores the
     !! exception explicitly, triggering a fatal error.
 
-    class(error_status),allocatable::status
+    class(error_status), allocatable::status
         !! Error status
 
     call test_throw(status)
 
-    select type(status)
-    class is(exception)
-       print *,"Ignored error:",status%message
+    select type (status)
+    class is (exception)
+      print *, "Ignored error:", status%message
     end select
 
   end subroutine test_fail
@@ -68,7 +69,7 @@ contains
     !! Test procedure that calls exception-throwing procedures and handles the
     !! exceptions
 
-    class(error_status),allocatable::status
+    class(error_status), allocatable::status
         !! Error status
 
     ! Call a routine that can throw an error, but doesn't
@@ -78,29 +79,29 @@ contains
     call test_no_throw(status)
 
     ! Check the status argument
-    select type(status)
-    class is(exception)
-       print *,"Saw error:",status%as_string()
+    select type (status)
+    class is (exception)
+      print *, "Saw error:", status%as_string()
     end select
 
     ! Call a routine that throws an error
     call test_throw(status)
 
     ! Handle the error
-    select type(status)
-    class is(exception)
-       print *,"Handled error:",status%as_string()
-       status%handled=.true.
+    select type (status)
+    class is (exception)
+      print *, "Handled error:", status%as_string()
+      status%handled = .true.
     end select
 
     ! Call a routine that throws an error with the procedure attribute set
     call test_throw_with_procname(status)
 
     ! Handle the error
-    select type(status)
-    class is(exception)
-       print *,"Handled error:",status%as_string()
-       status%handled=.true.
+    select type (status)
+    class is (exception)
+      print *, "Handled error:", status%as_string()
+      status%handled = .true.
     end select
   end subroutine test_catch
 
