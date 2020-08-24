@@ -60,9 +60,6 @@ configure_file(enkf.py enkf.py COPYONLY)
 configure_file(libsuffix.py libsuffix.py COPYONLY)
 configure_file(lenkf_rsm_py.py lenkf_rsm_py.py COPYONLY)
 
-enable_testing()
-add_subdirectory(tests)
-
 # -------------------
 # Build documentation
 # -------------------
@@ -149,3 +146,28 @@ if ( NOT SKIP_DOC_GEN )
   endif ()
 
 endif()
+
+find_program(FPRETTIFY_EXECUTABLE NAMES "fprettify" DOC "Path to fprettify")
+
+if(NOT FPRETTIFY_EXECUTABLE)
+  message(STATUS "fprettify not found.")
+else()
+  set(DO_FPRETTIFY "${FPRETTIFY_EXECUTABLE}" "--diff" "-i" "2" "-l" "81")
+
+  set(ALL_SOURCES ${SYSTEM_MPI_SOURCES};${UTIL_SOURCES};${ASSIM_SOURCES};
+    ${RANDOM_SOURCES};${ASSIM_PARALLEL_SOURCES};
+    ${ADVECT1D_ASSIMILATE_INTERFACES_SOURCES};${ADVECT1D_ASSIMILATE_SOURCES};
+    ${ADVECT1D_SOURCES})
+
+  list(TRANSFORM ALL_SOURCES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
+
+  add_custom_target(
+    fprettify
+    COMMAND ${DO_FPRETTIFY}
+    ${ALL_SOURCES}
+    )
+
+endif()
+
+enable_testing()
+add_subdirectory(tests)

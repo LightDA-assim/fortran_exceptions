@@ -1,3 +1,16 @@
+
+if(FPRETTIFY_EXECUTABLE)
+
+  set(FPRETTIFY_CMD ${DO_FPRETTIFY})
+  list(APPEND FPRETTIFY_CMD "${ALL_SOURCES}")
+  string(REPLACE ";" "\;" FPRETTIFY_CMD "${FPRETTIFY_CMD}")
+  add_test(NAME test_fprettify
+    COMMAND ${CMAKE_COMMAND}
+    -DCMD=${FPRETTIFY_CMD}
+    -DFAIL_PATTERN=.
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/test_and_check_regex.cmake)
+endif()
+
 add_library(dummy_model_interfaces dummy_model_interfaces.F90)
 target_link_libraries(dummy_model_interfaces PRIVATE assim_parallel system_mpi random)
 configure_mpi_target(dummy_model_interfaces)
