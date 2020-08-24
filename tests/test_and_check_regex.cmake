@@ -1,5 +1,11 @@
+
+# Split command and args
+message("CMD=${CMD}")
+set(ARGS ${CMD})
+list(POP_FRONT ARGS CMD_EXECUTABLE)
+
 # Run the command
-execute_process(COMMAND ${CMD}
+execute_process(COMMAND ${CMD_EXECUTABLE} ${ARGS}
   RESULT_VARIABLE CMD_RESULT
   OUTPUT_VARIABLE OUTPUT
   ERROR_VARIABLE OUTPUT)
