@@ -29,7 +29,7 @@ target_link_libraries(assim PRIVATE random util)
 target_link_libraries(assim PRIVATE ${LAPACK_LIBRARIES})
 target_include_directories(assim PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
-set(ASSIM_PARALLEL_SOURCES assimilation_batch_manager.F90 assimilation_model_interface.F90 observations.f90 localization.f90 observation_manager.F90 forward_operator.F90 assimilation_manager.F90)
+set(ASSIM_PARALLEL_SOURCES assimilation_batch_manager.F90 assimilation_model_interface.F90 observations.F90 localization.f90 observation_manager.F90 forward_operator.F90 assimilation_manager.F90)
 add_library(assim_parallel SHARED ${ASSIM_PARALLEL_SOURCES})
 target_link_libraries(assim_parallel PUBLIC random assim system_mpi util)
 configure_mpi_target(assim_parallel)
