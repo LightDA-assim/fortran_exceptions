@@ -14,10 +14,11 @@ set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
 configure_mpi_target(system_mpi)
 target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(UTIL_SOURCES util.F90 tree.f90 list.f90 exceptions.F90 darray.F90)
+set(UTIL_SOURCES util.F90 tree.f90 list.f90 exceptions.F90 hdf5_exceptions.F90 darray.F90)
 add_library(util SHARED ${UTIL_SOURCES})
 target_include_directories(util PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(util PUBLIC system_mpi)
+configure_hdf5_target(util)
 configure_mpi_target(util)
 
 set(RANDOM_SOURCES random.f90 random_integer.f90)
