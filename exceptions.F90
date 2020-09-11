@@ -103,7 +103,7 @@ contains
     !! Finalize an exception. If this%handled is false, print error message
     !! and terminate. Otherwise do nothing.
 
-    use iso_fortran_env, ONLY: error_unit
+    use iso_fortran_env, ONLY: error_unit, output_unit
 
     ! Arguments
     class(exception), intent(in)::this
@@ -112,6 +112,8 @@ contains
     if (.not. this%handled) then
       write (error_unit, *) 'Unhandled exception:'
       call this%print()
+      flush(error_unit)
+      flush(output_unit)
       error stop
     end if
 
