@@ -6,6 +6,18 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules/
 
 include(lenkf_functions)
 
+if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
+  if(CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER 9)
+    # Compiler doesn't support overriding finalizers
+  else()
+    # Compiler supports overriding finalizers
+    add_definitions(-DOVERRIDABLE_FINALIZERS)
+  endif()
+else()
+  # Compiler supports overriding finalizers
+  add_definitions(-DOVERRIDABLE_FINALIZERS)
+endif()
+
 find_package(LAPACK REQUIRED)
 
 set(SYSTEM_MPI_SOURCES system_mpi.F90)
