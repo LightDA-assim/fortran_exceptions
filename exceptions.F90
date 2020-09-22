@@ -112,8 +112,8 @@ contains
     if (.not. this%handled) then
       write (error_unit, *) 'Unhandled exception:'
       call this%print()
-      flush(error_unit)
-      flush(output_unit)
+      flush (error_unit)
+      flush (output_unit)
       error stop
     end if
 
