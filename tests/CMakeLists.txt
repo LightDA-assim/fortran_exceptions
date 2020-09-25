@@ -11,9 +11,9 @@ if(FPRETTIFY_EXECUTABLE)
     -P ${CMAKE_CURRENT_SOURCE_DIR}/test_and_check_regex.cmake)
 endif()
 
-add_library(dummy_model_interfaces dummy_model_interfaces.F90)
-target_link_libraries(dummy_model_interfaces PRIVATE assim_parallel system_mpi random)
-configure_mpi_target(dummy_model_interfaces)
+add_library(test_types dummy_model_forward_operator.F90 random_observations.F90 dummy_model_interfaces.F90)
+target_link_libraries(test_types PRIVATE assim_parallel system_mpi random)
+configure_mpi_target(test_types)
 
 add_executable(dummy_assimilator_tests dummy_assimilator_tests.F90)
 target_link_libraries(dummy_assimilator_tests PRIVATE assim)
@@ -22,7 +22,7 @@ add_library(model_interface_tests model_interface_tests.f90)
 target_link_libraries(model_interface_tests PRIVATE assim_parallel system_mpi random)
 
 add_executable(dummy_model_interface_tests dummy_model_interface_tests.f90)
-target_link_libraries(dummy_model_interface_tests PRIVATE model_interface_tests system_mpi dummy_model_interfaces)
+target_link_libraries(dummy_model_interface_tests PRIVATE model_interface_tests system_mpi test_types)
 
 add_test(test_dummy_model_interface ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./dummy_model_interface_tests)
 
@@ -36,9 +36,14 @@ add_test(test_advect1d_model_interface ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_F
 add_test(test_dummy_assimilator dummy_assimilator_tests)
 
 add_executable(batch_manager_tests batch_manager_tests.F90)
-target_link_libraries(batch_manager_tests PRIVATE dummy_model_interfaces system_mpi assim assim_parallel)
+target_link_libraries(batch_manager_tests PRIVATE test_types system_mpi assim assim_parallel)
 
 add_test(test_batch_manager ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./batch_manager_tests)
+
+add_executable(assimilation_manager_tests assimilation_manager_tests.F90)
+target_link_libraries(assimilation_manager_tests PRIVATE test_types system_mpi assim assim_parallel)
+
+add_test(test_assimilation_manager ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} 4 ./assimilation_manager_tests)
 
 add_executable(util_tests util_tests.f90)
 target_link_libraries(util_tests util)
