@@ -2,7 +2,8 @@
 # Split command and args
 message("CMD=${CMD}")
 set(ARGS ${CMD})
-list(POP_FRONT ARGS CMD_EXECUTABLE)
+list(GET ARGS 0 CMD_EXECUTABLE)
+list(REMOVE_AT ARGS 0)
 
 # Run the command
 execute_process(COMMAND ${CMD_EXECUTABLE} ${ARGS}
