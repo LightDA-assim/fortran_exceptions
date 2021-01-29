@@ -18,13 +18,9 @@ else()
   add_definitions(-DOVERRIDABLE_FINALIZERS)
 endif()
 
-find_package(LAPACK REQUIRED)
+find_package(system_mpi REQUIRED)
 
-set(SYSTEM_MPI_SOURCES system_mpi.F90)
-add_library(system_mpi SHARED ${SYSTEM_MPI_SOURCES})
-set_target_properties(system_mpi PROPERTIES PUBLIC_HEADER "mpi_types.h")
-configure_mpi_target(system_mpi)
-target_include_directories(system_mpi PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+find_package(LAPACK REQUIRED)
 
 set(UTIL_SOURCES util.F90 tree.f90 list.f90 exceptions.F90 hdf5_exceptions.F90 darray.F90)
 add_library(util SHARED ${UTIL_SOURCES})
