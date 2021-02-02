@@ -12,7 +12,7 @@ if(FPRETTIFY_EXECUTABLE)
 endif()
 
 add_library(exception_tests exception_tests.f90)
-target_link_libraries(exception_tests util)
+target_link_libraries(exception_tests fortran_exceptions)
 
 add_executable(exception_test_pass test_exception_pass.f90)
 target_link_libraries(exception_test_pass exception_tests)
