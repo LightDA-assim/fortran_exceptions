@@ -1,0 +1,10 @@
+---
+project: fortran_exceptions
+summary: Exception library for Fortran 2003 and later
+author: John Haiducek
+src_dir: ${PROJ_DIR}
+output_dir: ${DOC_DIR}
+exclude_dir: ${PROJECT_BINARY_DIR}
+preprocessor: {!.PREPROCESSOR!}
+include: ${FORD_PROJECT_INCLUDES}
+---
