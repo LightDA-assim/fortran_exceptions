@@ -1,0 +1,5 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/fortran_exceptionsTargets.cmake")
+
+check_required_components(system_mpi)
