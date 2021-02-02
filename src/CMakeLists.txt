@@ -11,7 +11,6 @@ else()
 endif()
 
 add_library(fortran_exceptions SHARED exceptions.f90)
-target_include_directories(fortran_exceptions PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(fortran_exceptions INTERFACE
   $<INSTALL_INTERFACE:${Fortran_MODULE_DIRECTORY}>)
 install(TARGETS fortran_exceptions EXPORT system_mpi)
