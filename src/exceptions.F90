@@ -1,10 +1,13 @@
 module exceptions
 
   type, abstract::error_status
-     !! Base type for error statuses
+    !! Base type for error statuses
     character(:), allocatable::message
+      !! Status message
     character(:), allocatable::procedure
+      !! Procedure where status was created
     logical::handled = .false.
+      !! Whether the exception was handled
   contains
     procedure::as_string => error_status_as_string
     procedure::print => error_status_print
