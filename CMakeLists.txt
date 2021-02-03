@@ -28,7 +28,6 @@ configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in
 
 install(FILES
           "${CMAKE_CURRENT_BINARY_DIR}/fortran_exceptionsConfig.cmake"
-          "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/UseMPI.cmake"
         DESTINATION lib/cmake/fortran_exceptions
 )
 
