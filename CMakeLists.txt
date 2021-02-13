@@ -54,7 +54,7 @@ if ( NOT SKIP_DOC_GEN )
     set(PROJ_DIR "${PROJECT_SOURCE_DIR}")
     set(FORD_PROJECT_FILE "${CMAKE_CURRENT_BINARY_DIR}/fortran_exceptions.md")
     set(MACRO_FLAG "")
-    string(REPLACE ";" "\ninclude:" FORD_PROJECT_INCLUDES "${MPI_Fortran_INCLUDE_DIRS};${PROJ_DIR}")
+    string(REPLACE ";" "\ninclude:" FORD_PROJECT_INCLUDES "${PROJ_DIR}/src")
 
     configure_file(fortran_exceptions.md.in fortran_exceptions.md)
 
