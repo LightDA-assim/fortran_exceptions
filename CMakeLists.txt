@@ -49,7 +49,8 @@ if ( NOT SKIP_DOC_GEN )
 
   if(FORD)
 
-    set(DOC_DIR "${PROJECT_BINARY_DIR}/doc")
+    set(DOC_ROOT "${PROJECT_BINARY_DIR}/doc")
+    set(DOC_DIR "${DOC_ROOT}/fortran_exceptions")
     set(PROJ_DIR "${PROJECT_SOURCE_DIR}")
     set(FORD_PROJECT_FILE "${CMAKE_CURRENT_BINARY_DIR}/fortran_exceptions.md")
     set(MACRO_FLAG "")
@@ -108,12 +109,7 @@ if ( NOT SKIP_DOC_GEN )
     set ( INSTALL_API_DOCUMENTATION TRUE
       CACHE BOOL "Install FORD generated documentation?" )
     if ( INSTALL_API_DOCUMENTATION )
-      if ( USE_GNU_INSTALL_CONVENTION )
-	install ( DIRECTORY "${DOC_DIR}/" DESTINATION "${CMAKE_INSTALL_DOCDIR}" )
-      else ()
-	install ( DIRECTORY "${DOC_DIR}/" DESTINATION "${CMAKE_INSTALL_PREFIX}/${PACKAGE_VERSION}/doc" )
-      endif ()
-
+      install ( DIRECTORY "${DOC_ROOT}/" TYPE DOC )
     else ()
 
       # FORD Not found
