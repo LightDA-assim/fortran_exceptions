@@ -3,3 +3,5 @@
 include("${CMAKE_CURRENT_LIST_DIR}/fortran_exceptionsTargets.cmake")
 
 check_required_components(fortran_exceptions)
+
+set(fortran_exceptions_DOCDIR @CMAKE_INSTALL_PREFIX@/share/doc/fortran_exceptions)
