@@ -38,3 +38,15 @@ add_test(NAME test_exception_fail_implicit
   -DFAIL_PATTERN=Unhandled\ exception
   -DWILL_FAIL=1
   -P ${CMAKE_CURRENT_SOURCE_DIR}/test_and_check_regex.cmake)
+
+add_custom_target(all_tests ALL
+  DEPENDS exception_tests exception_test_pass exception_test_fail
+  exception_test_fail_implicit)
+
+add_custom_command(
+     TARGET all_tests
+     COMMENT "Run tests"
+     POST_BUILD
+     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+     COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> --output-on-failures
+)
