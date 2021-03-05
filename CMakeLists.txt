@@ -91,7 +91,7 @@ if ( NOT SKIP_DOC_GEN )
     endif ()
     message ( STATUS "Done dynamically computing FORD outputs." )
 
-    foreach ( DOC_SRC_FILE ${PROJECT_BINARY_DIR}/fortran_exceptions.md src/exceptions.F90)
+    foreach ( DOC_SRC_FILE ${PROJECT_BINARY_DIR}/fortran_exceptions.md src/exceptions.f90)
       list ( APPEND FORD_DEPENDS "${DOC_SRC_FILE}" )
     endforeach ()
 
@@ -128,7 +128,7 @@ if(NOT FPRETTIFY_EXECUTABLE)
 else()
   set(DO_FPRETTIFY "${FPRETTIFY_EXECUTABLE}" "--diff" "-i" "2" "-l" "81")
 
-  set(ALL_SOURCES src/exceptions.F90)
+  set(ALL_SOURCES src/exceptions.f90)
 
   list(TRANSFORM ALL_SOURCES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
