@@ -91,7 +91,7 @@ if ( NOT SKIP_DOC_GEN )
     endif ()
     message ( STATUS "Done dynamically computing FORD outputs." )
 
-    foreach ( DOC_SRC_FILE ${PROJECT_BINARY_DIR}/fortran_exceptions.md src/exceptions.F90)
+    foreach ( DOC_SRC_FILE ${PROJECT_BINARY_DIR}/fortran_exceptions.md src/exceptions.f90)
       list ( APPEND FORD_DEPENDS "${DOC_SRC_FILE}" )
     endforeach ()
 
