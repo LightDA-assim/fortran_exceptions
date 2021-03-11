@@ -26,9 +26,9 @@ module exceptions
   end type exception
 
   type::error_container
-     class(error_status), allocatable::info
-   contains
-     final::container_finalize
+    class(error_status), allocatable::info
+  contains
+    final::container_finalize
   end type error_container
 
 contains
@@ -172,10 +172,10 @@ contains
     type(error_container), intent(inout)::this
         !! Exception object
 
-    if(allocated(this%info)) then
-       if(.not. this%info%handled) then
-          call this%info%default_handler
-       end if
+    if (allocated(this%info)) then
+      if (.not. this%info%handled) then
+        call this%info%default_handler
+      end if
     end if
 
   end subroutine container_finalize
