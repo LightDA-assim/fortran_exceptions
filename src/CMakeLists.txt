@@ -13,4 +13,6 @@ endif()
 add_library(fortran_exceptions SHARED exceptions.f90)
 target_include_directories(fortran_exceptions INTERFACE
   $<INSTALL_INTERFACE:${Fortran_MODULE_DIRECTORY}>)
-install(TARGETS fortran_exceptions EXPORT fortran_exceptions)
+install(TARGETS fortran_exceptions
+  EXPORT fortran_exceptions
+  LIBRARY DESTINATION lib ${CMAKE_INSTALL_LIBDIR})

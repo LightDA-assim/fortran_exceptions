@@ -121,6 +121,14 @@ if ( NOT SKIP_DOC_GEN )
 
 endif()
 
+function(list_transform_prepend var prefix)
+    set(temp "")
+    foreach(f ${${var}})
+        list(APPEND temp "${prefix}${f}")
+    endforeach()
+    set(${var} "${temp}" PARENT_SCOPE)
+endfunction()
+
 find_program(FPRETTIFY_EXECUTABLE NAMES "fprettify" DOC "Path to fprettify")
 
 if(NOT FPRETTIFY_EXECUTABLE)
@@ -130,7 +138,7 @@ else()
 
   set(ALL_SOURCES src/exceptions.f90)
 
-  list(TRANSFORM ALL_SOURCES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
+  list_transform_prepend(ALL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/)
 
   add_custom_target(
     fprettify
