@@ -1,6 +1,6 @@
 module exception_tests
 
-  use exceptions, ONLY: throw, exception, new_exception, error_status
+  use exceptions, ONLY: throw, exception, new_exception, error_container
 
   implicit none
 
@@ -10,7 +10,7 @@ contains
     !! Test procedure that can throw an error, but doesn't
 
     ! Arguments
-    class(error_status), intent(out), allocatable, optional::status
+    type(error_container), intent(out), optional::status
         !! Error status
 
   end subroutine test_no_throw
@@ -19,7 +19,7 @@ contains
     !! Test procedure that throws an exception and exits
 
     ! Arguments
-    class(error_status), intent(out), allocatable, optional::status
+    type(error_container), intent(out), optional::status
         !! Error status
 
     call throw(status, new_exception("An error occurred"))
@@ -32,7 +32,7 @@ contains
     !! and exits
 
     ! Arguments
-    class(error_status), intent(out), allocatable, optional::status
+    type(error_container), intent(out), optional::status
         !! Error status
 
     call throw(status, new_exception("An error occurred", &
@@ -45,14 +45,14 @@ contains
     !! Test function that calls an exception-throwing procedure and ignores the
     !! exception explicitly, triggering a fatal error.
 
-    class(error_status), allocatable::status
+    type(error_container)::status
         !! Error status
 
     call test_throw(status)
 
-    select type (status)
+    select type (error => status%info)
     class is (exception)
-      print *, "Ignored error:", status%message
+      print *, "Ignored error:", error%message
     end select
 
   end subroutine test_fail
@@ -69,7 +69,7 @@ contains
     !! Test procedure that calls exception-throwing procedures and handles the
     !! exceptions
 
-    class(error_status), allocatable::status
+    type(error_container)::status
         !! Error status
 
     ! Call a routine that can throw an error, but doesn't
@@ -79,29 +79,30 @@ contains
     call test_no_throw(status)
 
     ! Check the status argument
-    select type (status)
+    select type (error => status%info)
     class is (exception)
-      print *, "Saw error:", status%as_string()
+      print *, "Saw error:", error%as_string()
     end select
 
+    print *, 'Routine that throws error'
     ! Call a routine that throws an error
     call test_throw(status)
 
     ! Handle the error
-    select type (status)
+    select type (error => status%info)
     class is (exception)
-      print *, "Handled error:", status%as_string()
-      status%handled = .true.
+      print *, "Handled error:", error%as_string()
+      error%handled = .true.
     end select
 
     ! Call a routine that throws an error with the procedure attribute set
     call test_throw_with_procname(status)
 
     ! Handle the error
-    select type (status)
+    select type (error => status%info)
     class is (exception)
-      print *, "Handled error:", status%as_string()
-      status%handled = .true.
+      print *, "Handled error:", error%as_string()
+      error%handled = .true.
     end select
   end subroutine test_catch
 

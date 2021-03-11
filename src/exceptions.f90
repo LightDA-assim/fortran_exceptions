@@ -25,7 +25,30 @@ module exceptions
     final::exception_finalize
   end type exception
 
+  type::error_container
+     class(error_status), allocatable::info
+   contains
+     final::container_finalize
+  end type error_container
+
 contains
+
+  subroutine transfer_error(old_container, new_container)
+
+    !! Transfer error state to a new container
+
+    ! Arguments
+    type(error_container), intent(inout)::old_container
+    type(error_container), intent(inout), optional::new_container
+
+    if (present(new_container)) then
+      new_container%info = old_container%info
+      old_container%info%handled = .true.
+    else
+      call old_container%info%default_handler
+    end if
+
+  end subroutine transfer_error
 
   function new_exception(message, procedure) result(exc)
 
@@ -51,13 +74,14 @@ contains
     !! Throw an exception
 
     ! Arguments
-    class(error_status), intent(out), allocatable, optional::status
+    type(error_container), intent(out), optional::status
         !! Status object from the caller
-    class(error_status), intent(in)::new_status
+    class(error_status)::new_status
         !! New status object
 
     if (present(status)) then
-      status = new_status
+      status%info = new_status
+      new_status%handled = .true.
     else
       call new_status%default_handler()
     end if
@@ -136,5 +160,24 @@ contains
     call this%default_handler()
 
   end subroutine exception_finalize
+
+  subroutine container_finalize(this)
+
+    !! Finalize an exception. If this%handled is false, print error message
+    !! and terminate. Otherwise do nothing.
+
+    use iso_fortran_env, ONLY: error_unit
+
+    ! Arguments
+    type(error_container), intent(inout)::this
+        !! Exception object
+
+    if(allocated(this%info)) then
+       if(.not. this%info%handled) then
+          call this%info%default_handler
+       end if
+    end if
+
+  end subroutine container_finalize
 
 end module exceptions
