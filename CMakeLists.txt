@@ -36,7 +36,7 @@ install(FILES
         DESTINATION lib/cmake/fortran_exceptions
 )
 
-install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY} DESTINATION ${Fortran_MODULE_DIRECTORY}/..)
+install(DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY}/ DESTINATION ${Fortran_MODULE_DIRECTORY})
 
 install(EXPORT fortran_exceptions
   FILE fortran_exceptionsTargets.cmake
