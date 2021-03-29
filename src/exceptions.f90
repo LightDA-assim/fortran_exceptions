@@ -42,7 +42,7 @@ contains
     type(error_container), intent(inout), optional::new_container
 
     if (present(new_container)) then
-      new_container%info = old_container%info
+      allocate (new_container%info, source=old_container%info)
       old_container%info%handled = .true.
     else
       call old_container%info%default_handler
@@ -80,7 +80,7 @@ contains
         !! New status object
 
     if (present(status)) then
-      status%info = new_status
+      allocate (status%info, source=new_status)
       new_status%handled = .true.
     else
       call new_status%default_handler()
