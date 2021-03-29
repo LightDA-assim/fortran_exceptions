@@ -42,7 +42,16 @@ contains
     type(error_container), intent(inout), optional::new_container
 
     if (present(new_container)) then
+
+      ! Use allocate command to copy error to new container
+      ! (A simple assignment works in Fortran 2008, but fails in older compilers
+      ! such as gfortran 4-6 that don't support assigning to allocatable
+      ! polymorphics
       allocate (new_container%info, source=old_container%info)
+
+      ! Mark old_container%info as handled so that it doesn't trigger
+      ! an error when finalized (which it shouldn't since the error has been
+      ! transferred to another container)
       old_container%info%handled = .true.
     else
       call old_container%info%default_handler
@@ -80,7 +89,14 @@ contains
         !! New status object
 
     if (present(status)) then
+
+      ! Use allocate command to copy error to container
+      ! (A simple assignment works in Fortran 2008, but fails in older compilers
+      ! such as gfortran 4-6 that don't support assigning to allocatable
+      ! polymorphics
       allocate (status%info, source=new_status)
+
+      ! Mark error as handled
       new_status%handled = .true.
     else
       call new_status%default_handler()
