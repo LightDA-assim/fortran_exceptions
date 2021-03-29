@@ -49,10 +49,8 @@ if ( NOT SKIP_DOC_GEN )
 
   find_package(PythonInterp)
 
-  set(MARKDOWN_SUPPORTED_PYTHON (
-      (NOT PYTHON_VERSION_STRING VERSION_LESS 3.5)
-	AND NOT PYTHON_VERSION_STRING VERSION_LESS 2.7)
-      )
+  set(MARKDOWN_SUPPORTED_PYTHON
+      NOT PYTHON_VERSION_STRING VERSION_LESS 3.5)
 
     if(NOT SKIP_DOC_GEN AND NOT MARKDOWN_SUPPORTED_PYTHON)
     message(WARNING "Python version ${PYTHON_VERSION_STRING} is not supported by Python-Markdown, not attempting to build documentation.")
