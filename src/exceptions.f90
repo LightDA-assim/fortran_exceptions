@@ -115,8 +115,10 @@ contains
 
     string = trim(this%message)
 
-    if (len_trim(this%procedure) > 0) then
-      string = string//new_line('A')//"in procedure "//trim(this%procedure)
+    if (allocated(this%procedure)) then
+      if (len_trim(this%procedure) > 0) then
+        string = string//new_line('A')//"in procedure "//trim(this%procedure)
+      end if
     end if
 
   end function error_status_as_string
