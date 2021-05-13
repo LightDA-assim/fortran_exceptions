@@ -83,3 +83,5 @@ Custom exception types can be created extending the generic `exception` type. Ex
 [MIT](https://choosealicense.com/licenses/mit/)
 
 [^1]: Poppe, K., Cools, R., & Vandewoestyne, B. (2012). Error handling in Fortran 2003. ACM SIGPLAN Fortran Forum, 31(2), 7–19. <https://doi.org/10.1145/2338786.2338787>
+
+DISTRIBUTION A: Approved for public release, distribution is unlimited
