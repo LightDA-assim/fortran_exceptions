@@ -57,11 +57,11 @@ if ( NOT SKIP_DOC_GEN )
   set(MARKDOWN_SUPPORTED_PYTHON
       NOT PYTHON_VERSION_STRING VERSION_LESS 3.5)
 
-    if(NOT SKIP_DOC_GEN AND NOT MARKDOWN_SUPPORTED_PYTHON)
+    if(NOT MARKDOWN_SUPPORTED_PYTHON)
     message(WARNING "Python version ${PYTHON_VERSION_STRING} is not supported by Python-Markdown, not attempting to build documentation.")
   endif()
 
-  if(FORD AND NOT MARKDOWN_SUPPORTED_PYTHON)
+  if(FORD AND MARKDOWN_SUPPORTED_PYTHON)
 
     set(DOC_ROOT "${PROJECT_BINARY_DIR}/doc")
     set(DOC_DIR "${DOC_ROOT}/fortran_exceptions")
