@@ -140,4 +140,4 @@ end select
 
 The above code will continue on exceptions of type io_exception, but the program will exit with an error if an exception of any other type is thrown.
 
-[^1]: Poppe, K., Cools, R., & Vandewoestyne, B. (2012). Error handling in Fortran 2003. ACM SIGPLAN Fortran Forum, 31(2), 7–19. <https://doi.org/10.1145/2338786.2338787>
+[^1]: Poppe, K., Cools, R., & Vandewoestyne, B. (2012). Error handling in Fortran 2003. ACM SIGPLAN Fortran Forum, 31(2), 7-19. <https://doi.org/10.1145/2338786.2338787>
