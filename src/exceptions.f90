@@ -15,11 +15,25 @@ module exceptions
   end type error_status
 
   type, extends(error_status) :: no_error
-     !! Non-error type, no error occurred
+    !! Non-error type, no error occurred
+
+    integer::gfortran_workaround = 0
+      !! Workaround for gfortran bug #110987.
+      !! (prevents a segmentation fault triggered when finalizing
+      !! temporary objects that inherit from a parent type but don't
+      !! have any data members aside from those in the parent)
+
   end type no_error
 
   type, extends(error_status)::exception
-     !! Generic exception
+    !! Generic exception
+
+    integer::gfortran_workaround = 0
+      !! Workaround for gfortran bug #110987
+      !! (prevents a segmentation fault triggered when finalizing
+      !! temporary objects that inherit from a parent type but don't
+      !! have any data members aside from those in the parent)
+
   contains
     procedure::default_handler => exception_default_handler
     final::exception_finalize
