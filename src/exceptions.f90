@@ -6,6 +6,8 @@ module exceptions
       !! Status message
     character(:), allocatable::procedure
       !! Procedure where status was created
+    logical::thrown = .false.
+      !! Whether the exception has been thrown
     logical::handled = .false.
       !! Whether the exception was handled
   contains
@@ -110,9 +112,13 @@ contains
       ! polymorphics
       allocate (status%info, source=new_status)
 
-      ! Mark error as handled
+      ! Mark temporary error as handled
       new_status%handled = .true.
+
+      ! Mark retained error as thrown
+      status%info%thrown = .true.
     else
+      new_status%thrown = .true.
       call new_status%default_handler()
     end if
 
@@ -168,7 +174,7 @@ contains
     class(exception), intent(in)::this
         !! Exception object
 
-    if (.not. this%handled) then
+    if (this%thrown .and. .not. this%handled) then
       write (error_unit, *) 'Unhandled exception:'
       call this%print()
       flush (error_unit)
